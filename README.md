@@ -437,4 +437,18 @@
   * 所有在.env中的文件都应该是秘密的，把他们添加到gitignore里！
 * 使用python manage.py check --deploy来检查可能存在的安全问题
 * Gunicorn：一个纯粹的python的HTTP服务器
+* django的数据库配置会在一个环境变量DATABASE_URL里保存
+  * 通常使用dj-database-url包让django项目从此环境变量中读取配置数据
+
+* 可以先下载包来使得上到的服务器需要具有相关的配置
+* 在开发过程中的静态文件数据需要经过django进行渲染，这在服务器上会显得非常低效
+  * 通常将静态文件和django应用分开
+  * 静态文件在template中使用static等关键字来说明链接到静态文件
+  * 使用python manage.py collectstatic来重新指定静态文件，django会在settings.py中指定的静态文件路径来获取相关文件
+  * 实际的配置过程通常使用Whitenoise库来实现
+    * 在下载了Whitenoise后，在MIDDLEWARE中添加whitenoise.middleware.WhiteNoiseMiddleware
+    * 并在STORAGES中设定相关的配置
+
+* 所有对于服务器的配置需求应该被记录在仓库root路径中的requirements.txt中
+  * 使用pip freeze > requirements.txt来记录python配置需求
 
